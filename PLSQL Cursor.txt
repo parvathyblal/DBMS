@@ -1,0 +1,39 @@
+SQL> DECLARE
+  2       total_rows number(2);
+  3    BEGIN
+  4       UPDATE  customers
+  5       SET salary = salary + 5000;
+  6       IF sql%notfound THEN
+  7          dbms_output.put_line('no customers updated');
+  8       ELSIF sql%found THEN
+  9          total_rows := sql%rowcount;
+ 10          dbms_output.put_line( total_rows || ' customers updated ');
+ 11       END IF;
+ 12    END;
+ 13     /
+4 customers updated
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2        c_id customers.id%type;
+  3        c_name customers.name%type;
+  4        c_salary customers.salary%type;
+  5       CURSOR c_customers is
+  6           SELECT id, name, salary FROM customers;
+  7    BEGIN
+  8        OPEN c_customers;
+  9        LOOP
+ 10          FETCH c_customers into c_id, c_name, c_salary;
+ 11          EXIT WHEN c_customers%notfound;
+ 12           dbms_output.put_line(c_id || ' ' || c_name || ' ' || c_salary);
+ 13       END LOOP;
+ 14    CLOSE c_customers;
+ 15    END;
+ 16    /
+1 sam 7000
+2 tam 8000
+3 ram 7500
+4 kam 10000
+
+PL/SQL procedure successfully completed.
