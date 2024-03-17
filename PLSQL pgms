@@ -324,7 +324,6 @@ Enter value for number3: 20
 old   8:    z:=&number3;
 new   8:    z:=20;
 z is largest
-
 PL/SQL procedure successfully completed.
 
 
