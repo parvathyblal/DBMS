@@ -4,5 +4,138 @@ Last Successful login time: Wed Mar 06 2024 13:34:37 +05:30
 
 Connected to: 
 Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production 
-Version 21.3.0.0.0 
+Version 21.3.0.0.0
 
+1)
+SQL> CREATE OR REPLACE TRIGGER salaryupdate
+  2    BEFORE DELETE OR INSERT OR UPDATE ON customers
+  3    FOR EACH ROW
+  4    WHEN (NEW.ID > 0)
+  5    DECLARE
+  6       sal_diff number;
+  7   BEGIN
+  8       sal_diff := :NEW.salary  - :OLD.salary;
+  9       dbms_output.put_line('Old salary: ' || :OLD.salary);
+ 10       dbms_output.put_line('New salary: ' || :NEW.salary);
+ 11       dbms_output.put_line('Salary difference: ' || sal_diff);
+ 12   END;
+ 13     /
+
+Trigger created.
+
+SQL>  DECLARE
+  2       total_rows number(2);
+  3    BEGIN
+  4         UPDATE  customers
+  5         SET salary = salary + 5000;
+  6         IF sql%notfound THEN
+  7            dbms_output.put_line('no customers updated');
+  8         ELSIF sql%found THEN
+  9            total_rows := sql%rowcount;
+ 10           dbms_output.put_line( total_rows || ' customers updated ');
+ 11        END IF;
+ 12     END;
+ 13     /
+Old salary: 7000
+New salary: 12000
+Salary difference: 5000
+Old salary: 8000
+New salary: 13000
+Salary difference: 5000
+Old salary: 7500
+New salary: 12500
+Salary difference: 5000
+Old salary: 10000
+New salary: 15000
+Salary difference: 5000
+4 customers updated
+
+PL/SQL procedure successfully completed.
+
+2)
+SQL> create table employee(eid int,name varchar(20),salary int);
+
+Table created.
+
+SQL> insert into employee values(1,'raman',59999);
+
+1 row created.
+
+SQL> insert into employee values(2,'lakshmanan',49999);
+
+1 row created.
+
+SQL> insert into employee values(3,'bharathan',39999);
+
+1 row created.
+
+SQL> insert into employee values(4,'raavanan',29999);
+
+1 row created.
+
+SQL> set serveroutput on
+SQL> CREATE OR REPLACE TRIGGER Checksalary
+  2     BEFORE
+  3     INSERT OR UPDATE ON employee
+  4    FOR EACH ROW
+  5     BEGIN
+  6     IF :new.salary>3000 THEN
+  7     raise_application_error(-20001, 'salary should not be greater than 2000');
+  8     END IF;
+  9     END;
+ 10      /
+
+Trigger created.
+
+SQL> update employee set salary=4000 where eid=2;
+update employee set salary=4000 where eid=2
+       *
+ERROR at line 1:
+ORA-20001: salary should not be greater than 2000
+ORA-06512: at "SYSTEM.CHECKSALARY", line 3
+ORA-04088: error during execution of trigger 'SYSTEM.CHECKSALARY'
+
+SQL>  update employee set salary=2600 where eid=2;
+
+1 row updated.
+
+3)
+SQL> create table stud(sid int,sname varchar(20),sdpmt varchar(20),marks int);
+
+Table created.
+
+SQL>  insert into stud values(1,'sam','cse',20);
+
+1 row created.
+
+SQL> insert into stud values(2,'tam','it',30);
+
+1 row created.
+
+SQL> select * from stud;
+
+       SID SNAME                SDPMT                     MARKS
+---------- -------------------- -------------------- ----------
+         1 sam                  cse                          20
+         2 tam                  it                           30
+
+SQL> create or replace trigger studtrig after insert on stud
+  2      begin
+  3      dbms_output.put_line('inserted');
+  4      end;
+  5      /
+
+Trigger created.
+
+SQL> insert into stud values(3,'wam','ec',39);
+inserted
+
+1 row created.
+
+SQL> select * from stud;
+
+       SID SNAME                SDPMT                     MARKS
+---------- -------------------- -------------------- ----------
+         1 sam                  cse                          20
+         2 tam                  it                           30
+         3 wam                  ec                           39
