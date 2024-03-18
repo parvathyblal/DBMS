@@ -1,0 +1,93 @@
+test> use university
+switched to db university
+university> db.createCollection("Department")
+{ ok: 1 }
+university> db.Department.insert([{ Deptid: 101, Deptname: "MCA" }, { Deptid: 102, Deptname: "Civil" }, { Deptid: 103, Deptname: "Mechanical" }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('65f560a3625a5a51398bf20b'),
+    '1': ObjectId('65f560a3625a5a51398bf20c'),
+    '2': ObjectId('65f560a3625a5a51398bf20d')
+  }
+}
+university> db.Employee.insert([{Empid:201,Empname:"Anu",Empdept:"MCA",Salary:25000},{Empid:202,Empname:"Arun",Empdept:"Civil",Salary:30000},{Empid:203,Empname:"Latha",Empdept:"Mechanical",Salary:22000},{Empid:204,Empname:"Nimal",Empdept:"MCA",Salary:33000},{Empid:205,Empname:"Saran",Empdept:"Mechanical",Salary:45000},{Empid:206,Empname:"Susan",Empdept:"Civil",Salary:34000}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('65f560c1625a5a51398bf20e'),
+    '1': ObjectId('65f560c1625a5a51398bf20f'),
+    '2': ObjectId('65f560c1625a5a51398bf210'),
+    '3': ObjectId('65f560c1625a5a51398bf211'),
+    '4': ObjectId('65f560c1625a5a51398bf212'),
+    '5': ObjectId('65f560c1625a5a51398bf213')
+  }
+}
+university> db.Employee.find()
+[
+  {
+    _id: ObjectId('65f560c1625a5a51398bf20e'),
+    Empid: 201,
+    Empname: 'Anu',
+    Empdept: 'MCA',
+    Salary: 25000
+  },
+  {
+    _id: ObjectId('65f560c1625a5a51398bf20f'),
+    Empid: 202,
+    Empname: 'Arun',
+    Empdept: 'Civil',
+    Salary: 30000
+  },
+  {
+    _id: ObjectId('65f560c1625a5a51398bf210'),
+    Empid: 203,
+    Empname: 'Latha',
+    Empdept: 'Mechanical',
+    Salary: 22000
+  },
+  {
+    _id: ObjectId('65f560c1625a5a51398bf211'),
+    Empid: 204,
+    Empname: 'Nimal',
+    Empdept: 'MCA',
+    Salary: 33000
+  },
+  {
+    _id: ObjectId('65f560c1625a5a51398bf212'),
+    Empid: 205,
+    Empname: 'Saran',
+    Empdept: 'Mechanical',
+    Salary: 45000
+  },
+  {
+    _id: ObjectId('65f560c1625a5a51398bf213'),
+    Empid: 206,
+    Empname: 'Susan',
+    Empdept: 'Civil',
+    Salary: 34000
+  }
+]
+university> db.Department.find()
+[
+  {
+    _id: ObjectId('65f560a3625a5a51398bf20b'),
+    Deptid: 101,
+    Deptname: 'MCA'
+  },
+  {
+    _id: ObjectId('65f560a3625a5a51398bf20c'),
+    Deptid: 102,
+    Deptname: 'Civil'
+  },
+  {
+    _id: ObjectId('65f560a3625a5a51398bf20d'),
+    Deptid: 103,
+    Deptname: 'Mechanical'
+  }
+]
+university> db.Departrment.drop()
+true
+student> db.dropDatabase()
+{ ok: 1, dropped: 'student' }
+student>
