@@ -1,0 +1,76 @@
+
+test> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+local   40.00 KiB
+test> create own db
+Uncaught:
+SyntaxError: Missing semicolon. (1:6)
+
+> 1 | create own db
+    |       ^
+  2 |
+
+test> use student
+switched to db student
+student> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+local   40.00 KiB
+student> db.createCollection("dbms")
+{ ok: 1 }
+student> show dbs
+admin    40.00 KiB
+config   72.00 KiB
+local    40.00 KiB
+student   8.00 KiB
+student> db.dbms.insert[({Rollno:1,Name:"Parvathy"},{Rollno:2,Name:"Zainu"},{Rollno:3,Name:"Reema"},{Rollno:4,Name:"Revathi"})]
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65f59c9b806c72cbaa8bf202') }
+}
+student> show collections
+dbms
+student> db.dbms.find()
+[
+  {
+    _id: ObjectId('65f59c9b806c72cbaa8bf202'),
+    Rollno: 1,
+    Name: 'Parvathy'
+  }
+]
+student> db.dbms.updateOne({Rollno:1},{$set:{ Name:"Paru"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+student> db.dbms.drop()
+
+true
+student> show collections
+
+student> db.dropDatabase()
+{ ok: 1, dropped: 'student' }
+student> use admin
+switched to db admin
+admin> use school
+switched to db school
+school> use univ
+switched to db univ
+univ> db.dropDatabase()
+{ ok: 1, dropped: 'univ' }
+univ> use school
+switched to db school
+school> db.dropDatabase()
+{ ok: 1, dropped: 'school' }
+school>
+true
+student> show collections
+
+student> db.dropDatabase()
+{ ok: 1, dropped: 'student' }
+student>
