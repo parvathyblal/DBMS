@@ -3,13 +3,6 @@ test> show dbs
 admin   40.00 KiB
 config  72.00 KiB
 local   40.00 KiB
-test> create own db
-Uncaught:
-SyntaxError: Missing semicolon. (1:6)
-
-> 1 | create own db
-    |       ^
-  2 |
 
 test> use student
 switched to db student
