@@ -1,0 +1,16 @@
+      CREATE AND DROP DATABASE
+univ> use dbms
+switched to db dbms
+dbms> db.createCollection("Marklist")
+{ ok: 1 }
+dbms> show collection
+Marklist
+dbms> db.createCollection("parentdetails")
+{ ok: 1 }
+dbms> show collections
+Marklist
+parentdetails
+dbms> dp.parentdetails drop()
+true
+dbms> show collections
+Marklist
