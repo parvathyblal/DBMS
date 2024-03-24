@@ -1,7 +1,7 @@
 test> use parvathy
 switched to db parvathy
-                CREATE DATA
-parvathy> db.createData("dbms")
+                CREATE COLLECTION
+parvathy> db.createCollection("dbms")
 { ok: 1 }
 parvathy> db.dbms.insert({Rollnum:1,Name:"Parvathy"})
 {
