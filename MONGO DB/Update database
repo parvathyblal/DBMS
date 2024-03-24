@@ -1,1 +1,39 @@
-
+test> use parvathy
+switched to db parvathy
+                CREATE DATA
+parvathy> db.createData("dbms")
+{ ok: 1 }
+parvathy> db.dbms.insert({Rollnum:1,Name:"Parvathy"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65f551b8e93d31e1db8bf202') }
+}
+parvathy> db.dbms.find().pretty()
+[
+  {
+    _id: ObjectId('65f551b8e93d31e1db8bf202'),
+    Rollnum: 1,
+    Name: 'Parvathy'
+  }
+]
+                  UPDATE
+parvathy> db.dbms.updateOne({Rollnum:1},{$set:{name:"Parvathy Mohanan"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+parvathy> db.dbms.find()
+[
+  {
+    _id: ObjectId('65f551b8e93d31e1db8bf202'),
+    Rollnum: 1,
+    Name: 'Parvathy',
+    name: 'Parvathy Mohanan'
+  }
+]
+                    DROP DATABASE
+parvathy> db.dropDatabase()
+{ ok: 1, dropped: 'parvathy' }
