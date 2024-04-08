@@ -262,7 +262,7 @@ college> db.s2mca.aggregate([{$match:{div:"A"}},{'$sort':{'age':-1}},{$limit:1}]
   }
 ]
 
-10.Unwinding students on the basis of subject 
+9.Unwinding students on the basis of subject 
 
 college> db.s2mca.aggregate([{$unwind:'$sub'}])
 [
@@ -322,15 +322,16 @@ college> db.s2mca.aggregate([{$unwind:'$sub'}])
   }
 ]
 
-11.Calculate average age of students
+10.Calculate average age of students
 
 college> db.s2mca.aggregate([{$group:{_id:'roll',averageAge:{$avg:'$age'}}}]);
 [ { _id: 'roll', averageAge: 20.333333333333332 } ]
-college>
-        12.Count the number of male and female students
+
+11.Count the number of male and female students
 college>db.s2mca.aggregate([{$group:{_id:'$gender',count:{$sum:1}}}]);
 [ { _id: null, count: 3 } ]
-      12.Find courses with highest number of credit
+
+12.Find courses with highest number of credit
 college> db.s2mca.aggregate([{$sort:{credit:-1}},{$limit:1}])
 [
   {
