@@ -249,6 +249,101 @@ college> db.s2mca.aggregate([{'$sort':{'age':-1}}])
 
 8. Displaying details of a student having the largest age in the section – B 
 
+college> db.s2mca.aggregate([{$match:{div:"A"}},{'$sort':{'age':-1}},{$limit:1}])
+[
+  {
+    _id: ObjectId('6613a741a760bdc2898bf202'),
+    rollnum: 1,
+    name: 'ram',
+    age: 20,
+    div: 'A',
+    sub: [ 'phy', 'che' ],
+    credit: 8
+  }
+]
+
+10.Unwinding students on the basis of subject 
+
+college> db.s2mca.aggregate([{$unwind:'$sub'}])
+[
+  {
+    _id: ObjectId('6613a741a760bdc2898bf202'),
+    rollnum: 1,
+    name: 'ram',
+    age: 20,
+    div: 'A',
+    sub: 'phy',
+    credit: 8
+  },
+  {
+    _id: ObjectId('6613a741a760bdc2898bf202'),
+    rollnum: 1,
+    name: 'ram',
+    age: 20,
+    div: 'A',
+    sub: 'che',
+    credit: 8
+  },
+  {
+    _id: ObjectId('6613a79ea760bdc2898bf203'),
+    rollnum: 2,
+    name: 'Sam',
+    age: 20,
+    div: 'B',
+    sub: 'phy',
+    credit: 9
+  },
+  {
+    _id: ObjectId('6613a79ea760bdc2898bf203'),
+    rollnum: 2,
+    name: 'Sam',
+    age: 20,
+    div: 'B',
+    sub: 'maths',
+    credit: 9
+  },
+  {
+    _id: ObjectId('6613a7eaa760bdc2898bf204'),
+    rollnum: 3,
+    name: 'June',
+    age: 21,
+    div: 'C',
+    sub: 'phy',
+    credit: 7
+  },
+  {
+    _id: ObjectId('6613a7eaa760bdc2898bf204'),
+    rollnum: 3,
+    name: 'June',
+    age: 21,
+    div: 'C',
+    sub: 'Eng',
+    credit: 7
+  }
+]
+
+11.Calculate average age of students
+
+college> db.s2mca.aggregate([{$group:{_id:'roll',averageAge:{$avg:'$age'}}}]);
+[ { _id: 'roll', averageAge: 20.333333333333332 } ]
+college>
+        12.Count the number of male and female students
+college>db.s2mca.aggregate([{$group:{_id:'$gender',count:{$sum:1}}}]);
+[ { _id: null, count: 3 } ]
+      12.Find courses with highest number of credit
+college> db.s2mca.aggregate([{$sort:{credit:-1}},{$limit:1}])
+[
+  {
+    _id: ObjectId('6613a79ea760bdc2898bf203'),
+    rollnum: 2,
+    name: 'Sam',
+    age: 20,
+    div: 'B',
+    sub: [ 'phy', 'maths' ],
+    credit: 9
+  }
+]
+
 
 
 
