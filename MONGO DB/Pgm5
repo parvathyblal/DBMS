@@ -1,0 +1,88 @@
+                  1.create database named univ and collection named s1mca
+test> use univ
+switched to db univ
+                  2.List all female students
+univ> db.s1mca.find({Gender: "female"})
+[
+  {
+    _id: ObjectId('6613b4ddf0c66f9e5c8bf204'),
+    rollnum: 3,
+    name: 'chinnu',
+    age: 19,
+    Gender: 'female',
+    dept: 'civil',
+    mark: 75
+  },
+  {
+    _id: ObjectId('6613b50df0c66f9e5c8bf205'),
+    rollnum: 4,
+    name: 'Devika',
+    age: 20,
+    Gender: 'female',
+    dept: 'AI',
+    mark: 69
+  },
+  {
+    _id: ObjectId('6613b546f0c66f9e5c8bf206'),
+    rollnum: 5,
+    name: 'Elena',
+    age: 21,
+    Gender: 'female',
+    dept: 'mech',
+    mark: 91
+  },
+  {
+    _id: ObjectId('6613b572f0c66f9e5c8bf207'),
+    rollnum: 6,
+    name: 'gopika',
+    age: 18,
+    Gender: 'female',
+    dept: 'AI',
+    mark: 83
+  }
+]
+          3.List all male students
+univ> db.s1mca.find({Gender: "Male"})
+[
+  {
+    _id: ObjectId('6613b481f0c66f9e5c8bf202'),
+    rollnum: 1,
+    name: 'Amal',
+    age: 18,
+    Gender: 'Male',
+    dept: 'Civil',
+    mark: 73
+  },
+  {
+    _id: ObjectId('6613b4b6f0c66f9e5c8bf203'),
+    rollnum: 2,
+    name: 'Bibin',
+    age: 19,
+    Gender: 'Male',
+    dept: 'mech',
+    mark: 88
+  }
+]
+          4.Find total number of students in each department
+univ> db.s1mca.aggregate([{$group:{_id:"$dept",total_students:{$sum:1}}}])
+[
+  { _id: 'civil', total_students: 1 },
+  { _id: 'Civil', total_students: 1 },
+  { _id: 'AI', total_students: 2 },
+  { _id: 'mech', total_students: 2 }
+]
+        5.display dpmt name and sum of all male students in each department
+univ> db.s1mca.aggregate([ { $match: { Gender: "Male" } }, { $group: { _id: "$dept", total_male_students: { $sum: 1 } } }] )
+[
+  { _id: 'Civil', total_male_students: 1 },
+  { _id: 'mech', total_male_students: 1 }
+]
+        6.display dpmt name and avg marks in each department
+univ> db.s1mca.aggregate([ { $group: { _id: "$dept", avg_marks: { $avg: "$mark" } } }] )
+[
+  { _id: 'Civil', avg_marks: 73 },
+  { _id: 'mech', avg_marks: 89.5 },
+  { _id: 'AI', avg_marks: 76 },
+  { _id: 'civil', avg_marks: 75 }
+]
+univ>
